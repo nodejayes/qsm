@@ -15,7 +15,7 @@ type DynStruct struct {
 
 type TestTypes struct {
 	ID       int       `src:"tt" column:"id"`
-	Age      int       `src:"tt" column:"age"`
+	Age      int       `src:"tt" column:"age" dbread:"($column) + 1"`
 	Height   float64   `src:"tt" column:"height"`
 	Name     string    `src:"tt" column:"name"`
 	Birthday time.Time `src:"tt" column:"birthday"`

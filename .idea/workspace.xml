@@ -21,7 +21,7 @@
   <component name="ChangeListManager">
     <list default="true" id="87efe00e-5248-4bf0-ab70-6f70e7108e3d" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/query/query.go" beforeDir="false" afterPath="$PROJECT_DIR$/query/query.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/connection/connection.go" beforeDir="false" afterPath="$PROJECT_DIR$/connection/connection.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -159,7 +159,8 @@
     <MESSAGE value="init" />
     <MESSAGE value="working read" />
     <MESSAGE value="fix dbread tag" />
-    <option name="LAST_COMMIT_MESSAGE" value="fix dbread tag" />
+    <MESSAGE value="fix string read from uin8 array" />
+    <option name="LAST_COMMIT_MESSAGE" value="fix string read from uin8 array" />
   </component>
   <component name="VgoProject">
     <integration-enabled>true</integration-enabled>
@@ -205,10 +206,10 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state width="1867" height="369" key="GridCell.Tab.1.right/0.0.1920.1040@0.0.1920.1040" timestamp="1599568549929" />
-    <state x="452" y="187" key="Vcs.Push.Dialog.v2" timestamp="1599568564846">
+    <state x="452" y="187" key="Vcs.Push.Dialog.v2" timestamp="1599570581933">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="452" y="187" key="Vcs.Push.Dialog.v2/0.0.1920.1040@0.0.1920.1040" timestamp="1599568564846" />
+    <state x="452" y="187" key="Vcs.Push.Dialog.v2/0.0.1920.1040@0.0.1920.1040" timestamp="1599570581933" />
     <state width="968" height="528" key="XDebugger.FullValuePopup" timestamp="1599568501503">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>

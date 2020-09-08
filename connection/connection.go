@@ -5,11 +5,12 @@ import (
 	"errors"
 )
 
+var connection *sql.DB
+
 // New create a new instance of Connection and returns the reference to it
 func New(connectionString string, typ string) *Connection {
 	return &Connection{
 		connectionString: connectionString,
-		instance:         nil,
 		typ:              typ,
 		err:              nil,
 	}
@@ -18,14 +19,13 @@ func New(connectionString string, typ string) *Connection {
 // Connection the interface to the underlying database
 type Connection struct {
 	connectionString string
-	instance         *sql.DB
 	typ              string
 	err              error
 }
 
 // GetInstance the getter for the sql.DB instance
 func (ctx *Connection) GetInstance() *sql.DB {
-	return ctx.instance
+	return connection
 }
 
 // GetLastError returns the last error of the Connection
@@ -40,11 +40,11 @@ func (ctx *Connection) Connect(maxOpen int) {
 	if ctx.IsConnected() {
 		ctx.Disconnect()
 	}
-	ctx.instance, ctx.err = sql.Open(ctx.typ, ctx.connectionString)
+	connection, ctx.err = sql.Open(ctx.typ, ctx.connectionString)
 	if ctx.err != nil {
 		return
 	}
-	ctx.instance.SetMaxOpenConns(maxOpen)
+	connection.SetMaxOpenConns(maxOpen)
 }
 
 // Disconnect close the Connection to the underlying database
@@ -52,15 +52,15 @@ func (ctx *Connection) Disconnect() {
 	if !ctx.IsConnected() {
 		return
 	}
-	ctx.err = ctx.instance.Close()
+	ctx.err = connection.Close()
 }
 
 // IsConnected check if the current Connection to the underlying database is open and active
 func (ctx *Connection) IsConnected() bool {
-	if ctx.instance == nil {
+	if connection == nil {
 		return false
 	}
-	pingResult := ctx.instance.Ping()
+	pingResult := connection.Ping()
 	if pingResult == nil {
 		return true
 	}

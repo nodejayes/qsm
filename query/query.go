@@ -144,7 +144,15 @@ func (ctx *Api) fillResultRows(target IModel, rows *sql.Rows) ([]map[string]inte
 
 			conv := ctx.converters[info.ReadConverter]
 			if conv == nil {
-				elem[info.FieldName] = scanResult[idx]
+				switch v := scanResult[idx].(type) {
+				case []uint8:
+					if f.Type.Kind() == reflect.String {
+						elem[info.FieldName] = string(v)
+					}
+					break
+				default:
+					elem[info.FieldName] = scanResult[idx]
+				}
 				continue
 			}
 			err := conv(scanResult[idx], types[idx], f, columns[idx], &elem)

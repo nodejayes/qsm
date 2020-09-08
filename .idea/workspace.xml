@@ -21,7 +21,8 @@
   <component name="ChangeListManager">
     <list default="true" id="87efe00e-5248-4bf0-ab70-6f70e7108e3d" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/connection/connection.go" beforeDir="false" afterPath="$PROJECT_DIR$/connection/connection.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/query/query.go" beforeDir="false" afterPath="$PROJECT_DIR$/query/query.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/query/query_test.go" beforeDir="false" afterPath="$PROJECT_DIR$/query/query_test.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -74,7 +75,18 @@
       <recent name="C:\Users\marku\go\src\github.com\nodejayes\qsm\converter" />
     </key>
   </component>
-  <component name="RunManager" selected="Go Test.TestApi_Select in github.com/nodejayes/qsm/query (2)">
+  <component name="RunManager" selected="Go Test.TestSelectVersion in github.com/nodejayes/qsm/query (1)">
+    <configuration name="ExampleConnection_Connect in github.com/nodejayes/qsm/connection" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
+      <module name="qsm" />
+      <working_directory value="$PROJECT_DIR$/connection" />
+      <framework value="gotest" />
+      <kind value="PACKAGE" />
+      <package value="github.com/nodejayes/qsm/connection" />
+      <directory value="$PROJECT_DIR$" />
+      <filePath value="$PROJECT_DIR$" />
+      <pattern value="^\QExampleConnection_Connect\E$" />
+      <method v="2" />
+    </configuration>
     <configuration name="TestApi_Select in github.com/nodejayes/qsm/query (1)" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
       <module name="qsm" />
       <working_directory value="$PROJECT_DIR$/query" />
@@ -97,7 +109,7 @@
       <pattern value="^\QTestApi_Select\E$" />
       <method v="2" />
     </configuration>
-    <configuration name="TestApi_Select in github.com/nodejayes/qsm/query" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
+    <configuration name="TestSelectVersion in github.com/nodejayes/qsm/query (1)" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
       <module name="qsm" />
       <working_directory value="$PROJECT_DIR$/query" />
       <framework value="gotest" />
@@ -105,10 +117,10 @@
       <package value="github.com/nodejayes/qsm/query" />
       <directory value="$PROJECT_DIR$" />
       <filePath value="$PROJECT_DIR$" />
-      <pattern value="^\QTestApi_Select\E$" />
+      <pattern value="^\QTestSelectVersion\E$" />
       <method v="2" />
     </configuration>
-    <configuration name="TestGetModelInfo in github.com/nodejayes/qsm/query (1)" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
+    <configuration name="TestSelectVersion in github.com/nodejayes/qsm/query" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
       <module name="qsm" />
       <working_directory value="$PROJECT_DIR$/query" />
       <framework value="gotest" />
@@ -116,27 +128,16 @@
       <package value="github.com/nodejayes/qsm/query" />
       <directory value="$PROJECT_DIR$" />
       <filePath value="$PROJECT_DIR$" />
-      <pattern value="^\QTestGetModelInfo\E$" />
-      <method v="2" />
-    </configuration>
-    <configuration name="TestGetModelInfo in github.com/nodejayes/qsm/query" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
-      <module name="qsm" />
-      <working_directory value="$PROJECT_DIR$/query" />
-      <framework value="gotest" />
-      <kind value="PACKAGE" />
-      <package value="github.com/nodejayes/qsm/query" />
-      <directory value="$PROJECT_DIR$" />
-      <filePath value="$PROJECT_DIR$" />
-      <pattern value="^\QTestGetModelInfo\E$" />
+      <pattern value="^\QTestSelectVersion\E$" />
       <method v="2" />
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Go Test.TestSelectVersion in github.com/nodejayes/qsm/query (1)" />
+        <item itemvalue="Go Test.TestSelectVersion in github.com/nodejayes/qsm/query" />
+        <item itemvalue="Go Test.ExampleConnection_Connect in github.com/nodejayes/qsm/connection" />
         <item itemvalue="Go Test.TestApi_Select in github.com/nodejayes/qsm/query (2)" />
         <item itemvalue="Go Test.TestApi_Select in github.com/nodejayes/qsm/query (1)" />
-        <item itemvalue="Go Test.TestGetModelInfo in github.com/nodejayes/qsm/query (1)" />
-        <item itemvalue="Go Test.TestGetModelInfo in github.com/nodejayes/qsm/query" />
-        <item itemvalue="Go Test.TestApi_Select in github.com/nodejayes/qsm/query" />
       </list>
     </recent_temporary>
   </component>
@@ -160,7 +161,8 @@
     <MESSAGE value="working read" />
     <MESSAGE value="fix dbread tag" />
     <MESSAGE value="fix string read from uin8 array" />
-    <option name="LAST_COMMIT_MESSAGE" value="fix string read from uin8 array" />
+    <MESSAGE value="use 1 sql.DB instance for all Connection instances" />
+    <option name="LAST_COMMIT_MESSAGE" value="use 1 sql.DB instance for all Connection instances" />
   </component>
   <component name="VgoProject">
     <integration-enabled>true</integration-enabled>
@@ -174,38 +176,38 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state width="1041" height="582" key="DebuggerActiveHint/0.0.1920.1040@0.0.1920.1040" timestamp="1599564098080" />
-    <state width="1867" height="369" key="GridCell.Tab.0.bottom" timestamp="1599568549929">
+    <state width="1867" height="369" key="GridCell.Tab.0.bottom" timestamp="1599572205718">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1867" height="369" key="GridCell.Tab.0.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1599568549929" />
-    <state width="1867" height="369" key="GridCell.Tab.0.center" timestamp="1599568549929">
+    <state width="1867" height="369" key="GridCell.Tab.0.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1599572205718" />
+    <state width="1867" height="369" key="GridCell.Tab.0.center" timestamp="1599572205718">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1867" height="369" key="GridCell.Tab.0.center/0.0.1920.1040@0.0.1920.1040" timestamp="1599568549929" />
-    <state width="1867" height="369" key="GridCell.Tab.0.left" timestamp="1599568549929">
+    <state width="1867" height="369" key="GridCell.Tab.0.center/0.0.1920.1040@0.0.1920.1040" timestamp="1599572205718" />
+    <state width="1867" height="369" key="GridCell.Tab.0.left" timestamp="1599572205718">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1867" height="369" key="GridCell.Tab.0.left/0.0.1920.1040@0.0.1920.1040" timestamp="1599568549929" />
-    <state width="1867" height="369" key="GridCell.Tab.0.right" timestamp="1599568549929">
+    <state width="1867" height="369" key="GridCell.Tab.0.left/0.0.1920.1040@0.0.1920.1040" timestamp="1599572205718" />
+    <state width="1867" height="369" key="GridCell.Tab.0.right" timestamp="1599572205718">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1867" height="369" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1599568549929" />
-    <state width="1867" height="369" key="GridCell.Tab.1.bottom" timestamp="1599568549929">
+    <state width="1867" height="369" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1599572205718" />
+    <state width="1867" height="369" key="GridCell.Tab.1.bottom" timestamp="1599572206131">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1867" height="369" key="GridCell.Tab.1.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1599568549929" />
-    <state width="1867" height="369" key="GridCell.Tab.1.center" timestamp="1599568549929">
+    <state width="1867" height="369" key="GridCell.Tab.1.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1599572206131" />
+    <state width="1867" height="369" key="GridCell.Tab.1.center" timestamp="1599572206131">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1867" height="369" key="GridCell.Tab.1.center/0.0.1920.1040@0.0.1920.1040" timestamp="1599568549929" />
-    <state width="1867" height="369" key="GridCell.Tab.1.left" timestamp="1599568549929">
+    <state width="1867" height="369" key="GridCell.Tab.1.center/0.0.1920.1040@0.0.1920.1040" timestamp="1599572206131" />
+    <state width="1867" height="369" key="GridCell.Tab.1.left" timestamp="1599572206131">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1867" height="369" key="GridCell.Tab.1.left/0.0.1920.1040@0.0.1920.1040" timestamp="1599568549929" />
-    <state width="1867" height="369" key="GridCell.Tab.1.right" timestamp="1599568549929">
+    <state width="1867" height="369" key="GridCell.Tab.1.left/0.0.1920.1040@0.0.1920.1040" timestamp="1599572206131" />
+    <state width="1867" height="369" key="GridCell.Tab.1.right" timestamp="1599572206131">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1867" height="369" key="GridCell.Tab.1.right/0.0.1920.1040@0.0.1920.1040" timestamp="1599568549929" />
+    <state width="1867" height="369" key="GridCell.Tab.1.right/0.0.1920.1040@0.0.1920.1040" timestamp="1599572206131" />
     <state x="452" y="187" key="Vcs.Push.Dialog.v2" timestamp="1599570581933">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
@@ -220,8 +222,13 @@
       <breakpoints>
         <line-breakpoint enabled="true" type="DlvLineBreakpoint">
           <url>file://$PROJECT_DIR$/query/query_test.go</url>
-          <line>39</line>
+          <line>53</line>
           <option name="timeStamp" value="9" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="DlvLineBreakpoint">
+          <url>file://$PROJECT_DIR$/query/query_test.go</url>
+          <line>64</line>
+          <option name="timeStamp" value="11" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

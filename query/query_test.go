@@ -9,6 +9,20 @@ import (
 	"time"
 )
 
+type Db struct {
+	Version string `src:"v" column:"version"`
+}
+
+func (ctx Db) GetSources() ([]string, []string, []string) {
+	return []string{
+			"from",
+		}, []string{
+			"(select version())",
+		}, []string{
+			"v",
+		}
+}
+
 type DynStruct struct {
 	Hello string `json:"hello" bson:"hello"`
 }
@@ -38,6 +52,17 @@ func TestApi_Select(t *testing.T) {
 	q := New(connection.New(cfg.TestConnectionString, "postgres"))
 	var res []TestTypes
 	tmp, err := q.Select(TestTypes{}, "", -1, -1)
+	err = mapstructure.Decode(tmp, &res)
+	if err != nil {
+		t.Errorf("expect err to be nil but was: %v", err.Error())
+		return
+	}
+}
+
+func TestSelectVersion(t *testing.T) {
+	q := New(connection.New(cfg.TestConnectionString, "postgres"))
+	var res []Db
+	tmp, err := q.Select(Db{}, "", -1, -1)
 	err = mapstructure.Decode(tmp, &res)
 	if err != nil {
 		t.Errorf("expect err to be nil but was: %v", err.Error())

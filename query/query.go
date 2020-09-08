@@ -68,7 +68,7 @@ func (ctx *Api) generateSelect(target IModel, where string, limit, offset int) s
 	for _, infos := range info {
 		columnName := infos.ColumnName
 		if len(infos.Src) > 0 {
-			columnName = "\"" + infos.Src + "\".\"" + columnName + "\""
+			columnName = infos.Src + "." + columnName
 		}
 		if counter > 0 {
 			buf.WriteString(", ")
@@ -88,7 +88,7 @@ func (ctx *Api) generateSelect(target IModel, where string, limit, offset int) s
 		buf.WriteString(" ")
 		buf.WriteString(types[idx])
 		buf.WriteString(" ")
-		buf.WriteString("\"" + strings.ReplaceAll(sources[idx], ".", "\".\"") + "\"")
+		buf.WriteString(sources[idx])
 		if len(aliases[idx]) > 0 {
 			buf.WriteString(" ")
 			buf.WriteString(aliases[idx])

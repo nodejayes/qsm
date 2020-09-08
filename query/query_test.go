@@ -61,11 +61,21 @@ func TestApi_Select(t *testing.T) {
 
 func TestSelectVersion(t *testing.T) {
 	q := New(connection.New(cfg.TestConnectionString, "postgres"))
+	q2 := New(connection.New(cfg.TestConnectionString, "postgres"))
 	var res []Db
 	tmp, err := q.Select(Db{}, "", -1, -1)
+	tmp, err = q2.Select(Db{}, "", -1, -1)
 	err = mapstructure.Decode(tmp, &res)
 	if err != nil {
 		t.Errorf("expect err to be nil but was: %v", err.Error())
+		return
+	}
+	if len(res) != 1 {
+		t.Errorf("expect one row in result slice")
+		return
+	}
+	if len(res[0].Version) < 1 {
+		t.Errorf("Version has no value but expect one")
 		return
 	}
 }

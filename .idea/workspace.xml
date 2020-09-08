@@ -21,7 +21,6 @@
   <component name="ChangeListManager">
     <list default="true" id="87efe00e-5248-4bf0-ab70-6f70e7108e3d" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/query/query.go" beforeDir="false" afterPath="$PROJECT_DIR$/query/query.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/query/query_test.go" beforeDir="false" afterPath="$PROJECT_DIR$/query/query_test.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -162,7 +161,8 @@
     <MESSAGE value="fix dbread tag" />
     <MESSAGE value="fix string read from uin8 array" />
     <MESSAGE value="use 1 sql.DB instance for all Connection instances" />
-    <option name="LAST_COMMIT_MESSAGE" value="use 1 sql.DB instance for all Connection instances" />
+    <MESSAGE value="remove quote generation" />
+    <option name="LAST_COMMIT_MESSAGE" value="remove quote generation" />
   </component>
   <component name="VgoProject">
     <integration-enabled>true</integration-enabled>
@@ -176,38 +176,38 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state width="1041" height="582" key="DebuggerActiveHint/0.0.1920.1040@0.0.1920.1040" timestamp="1599564098080" />
-    <state width="1867" height="369" key="GridCell.Tab.0.bottom" timestamp="1599572205718">
+    <state width="1867" height="369" key="GridCell.Tab.0.bottom" timestamp="1599572482435">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1867" height="369" key="GridCell.Tab.0.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1599572205718" />
-    <state width="1867" height="369" key="GridCell.Tab.0.center" timestamp="1599572205718">
+    <state width="1867" height="369" key="GridCell.Tab.0.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1599572482435" />
+    <state width="1867" height="369" key="GridCell.Tab.0.center" timestamp="1599572482435">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1867" height="369" key="GridCell.Tab.0.center/0.0.1920.1040@0.0.1920.1040" timestamp="1599572205718" />
-    <state width="1867" height="369" key="GridCell.Tab.0.left" timestamp="1599572205718">
+    <state width="1867" height="369" key="GridCell.Tab.0.center/0.0.1920.1040@0.0.1920.1040" timestamp="1599572482435" />
+    <state width="1867" height="369" key="GridCell.Tab.0.left" timestamp="1599572482435">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1867" height="369" key="GridCell.Tab.0.left/0.0.1920.1040@0.0.1920.1040" timestamp="1599572205718" />
-    <state width="1867" height="369" key="GridCell.Tab.0.right" timestamp="1599572205718">
+    <state width="1867" height="369" key="GridCell.Tab.0.left/0.0.1920.1040@0.0.1920.1040" timestamp="1599572482435" />
+    <state width="1867" height="369" key="GridCell.Tab.0.right" timestamp="1599572482435">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1867" height="369" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1599572205718" />
-    <state width="1867" height="369" key="GridCell.Tab.1.bottom" timestamp="1599572206131">
+    <state width="1867" height="369" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1599572482435" />
+    <state width="1867" height="369" key="GridCell.Tab.1.bottom" timestamp="1599572482869">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1867" height="369" key="GridCell.Tab.1.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1599572206131" />
-    <state width="1867" height="369" key="GridCell.Tab.1.center" timestamp="1599572206131">
+    <state width="1867" height="369" key="GridCell.Tab.1.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1599572482869" />
+    <state width="1867" height="369" key="GridCell.Tab.1.center" timestamp="1599572482869">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1867" height="369" key="GridCell.Tab.1.center/0.0.1920.1040@0.0.1920.1040" timestamp="1599572206131" />
-    <state width="1867" height="369" key="GridCell.Tab.1.left" timestamp="1599572206131">
+    <state width="1867" height="369" key="GridCell.Tab.1.center/0.0.1920.1040@0.0.1920.1040" timestamp="1599572482869" />
+    <state width="1867" height="369" key="GridCell.Tab.1.left" timestamp="1599572482869">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1867" height="369" key="GridCell.Tab.1.left/0.0.1920.1040@0.0.1920.1040" timestamp="1599572206131" />
-    <state width="1867" height="369" key="GridCell.Tab.1.right" timestamp="1599572206131">
+    <state width="1867" height="369" key="GridCell.Tab.1.left/0.0.1920.1040@0.0.1920.1040" timestamp="1599572482869" />
+    <state width="1867" height="369" key="GridCell.Tab.1.right" timestamp="1599572482869">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1867" height="369" key="GridCell.Tab.1.right/0.0.1920.1040@0.0.1920.1040" timestamp="1599572206131" />
+    <state width="1867" height="369" key="GridCell.Tab.1.right/0.0.1920.1040@0.0.1920.1040" timestamp="1599572482869" />
     <state x="452" y="187" key="Vcs.Push.Dialog.v2" timestamp="1599570581933">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
@@ -222,13 +222,18 @@
       <breakpoints>
         <line-breakpoint enabled="true" type="DlvLineBreakpoint">
           <url>file://$PROJECT_DIR$/query/query_test.go</url>
-          <line>53</line>
-          <option name="timeStamp" value="9" />
+          <line>65</line>
+          <option name="timeStamp" value="12" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DlvLineBreakpoint">
           <url>file://$PROJECT_DIR$/query/query_test.go</url>
-          <line>64</line>
-          <option name="timeStamp" value="11" />
+          <line>66</line>
+          <option name="timeStamp" value="13" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="DlvLineBreakpoint">
+          <url>file://$PROJECT_DIR$/query/query_test.go</url>
+          <line>67</line>
+          <option name="timeStamp" value="14" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

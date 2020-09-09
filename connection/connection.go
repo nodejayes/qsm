@@ -3,6 +3,7 @@ package connection
 import (
 	"database/sql"
 	"errors"
+	"os"
 )
 
 var connection *sql.DB
@@ -10,7 +11,7 @@ var connection *sql.DB
 // New create a new instance of Connection and returns the reference to it
 func New(connectionString string, typ string) *Connection {
 	return &Connection{
-		connectionString: connectionString,
+		connectionString: os.Getenv(connectionString),
 		typ:              typ,
 		err:              nil,
 	}

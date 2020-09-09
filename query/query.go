@@ -10,6 +10,7 @@ import (
 	"reflect"
 	"strconv"
 	"strings"
+	"time"
 )
 
 func New(connection *connection.Connection) *Api {
@@ -37,14 +38,17 @@ func (ctx *Api) UnregisterConverter(name string) {
 	delete(ctx.converters, name)
 }
 
-func (ctx *Api) Select(target IModel, where string, limit, offset int, args ...interface{}) ([]map[string]interface{}, error) {
+func (ctx *Api) Select(target IModel, where string, limit, offset int, args ...map[string]interface{}) ([]map[string]interface{}, error) {
 	var res []map[string]interface{}
 	query := ctx.generateSelect(target, where, limit, offset)
+	if args != nil && len(args) > 0 {
+		query = ctx.replaceParameter(query, args[0])
+	}
 
 	if !ctx.connection.IsConnected() {
 		ctx.connection.Connect(50)
 	}
-	rows, err := ctx.connection.GetInstance().Query(query, args...)
+	rows, err := ctx.connection.GetInstance().Query(query)
 	if rows == nil {
 		return nil, errors.New("missing database rows instance")
 	}
@@ -173,4 +177,219 @@ func (ctx *Api) scanDbValues(rows *sql.Rows, columnNames []string) ([]interface{
 	}
 	scanErr := rows.Scan(valuesPtr...)
 	return values, scanErr
+}
+
+func (ctx *Api) replaceParameter(query string, args map[string]interface{}) string {
+	for paramName, paramValue := range args {
+		if !strings.Contains(query, paramName) {
+			continue
+		}
+		query = strings.ReplaceAll(query, ":"+paramName, toSQLString(paramValue))
+	}
+	return query
+}
+
+func toSQLString(value interface{}) string {
+	switch v := value.(type) {
+	case bool:
+		if v {
+			return "true"
+		} else {
+			return "false"
+		}
+	case *bool:
+		if *v {
+			return "true"
+		} else {
+			return "false"
+		}
+	case int:
+		return strconv.FormatInt(int64(v), 10)
+	case *int:
+		return strconv.FormatInt(int64(*v), 10)
+	case int8:
+		return strconv.FormatInt(int64(v), 10)
+	case *int8:
+		return strconv.FormatInt(int64(*v), 10)
+	case int16:
+		return strconv.FormatInt(int64(v), 10)
+	case *int16:
+		return strconv.FormatInt(int64(*v), 10)
+	case int32:
+		return strconv.FormatInt(int64(v), 10)
+	case *int32:
+		return strconv.FormatInt(int64(*v), 10)
+	case int64:
+		return strconv.FormatInt(v, 10)
+	case *int64:
+		return strconv.FormatInt(*v, 10)
+	case uint:
+		return strconv.FormatUint(uint64(v), 10)
+	case *uint:
+		return strconv.FormatUint(uint64(*v), 10)
+	case uint8:
+		return strconv.FormatUint(uint64(v), 10)
+	case *uint8:
+		return strconv.FormatUint(uint64(*v), 10)
+	case uint16:
+		return strconv.FormatUint(uint64(v), 10)
+	case *uint16:
+		return strconv.FormatUint(uint64(*v), 10)
+	case uint32:
+		return strconv.FormatUint(uint64(v), 10)
+	case *uint32:
+		return strconv.FormatUint(uint64(*v), 10)
+	case uint64:
+		return strconv.FormatUint(v, 10)
+	case *uint64:
+		return strconv.FormatUint(*v, 10)
+	case float32:
+		return strconv.FormatFloat(float64(v), 'f', -1, 32)
+	case *float32:
+		return strconv.FormatFloat(float64(*v), 'f', -1, 32)
+	case float64:
+		return strconv.FormatFloat(v, 'f', -1, 64)
+	case *float64:
+		return strconv.FormatFloat(*v, 'f', -1, 64)
+	case complex64:
+		return strconv.FormatComplex(complex128(v), 'f', -1, 64)
+	case *complex64:
+		return strconv.FormatComplex(complex128(*v), 'f', -1, 128)
+	case complex128:
+		return strconv.FormatComplex(v, 'f', -1, 64)
+	case *complex128:
+		return strconv.FormatComplex(*v, 'f', -1, 64)
+	case string:
+		return fmt.Sprintf("'%v'", removeSqlInjections(v))
+	case *string:
+		return fmt.Sprintf("'%v'", removeSqlInjections(*v))
+	case time.Time:
+		return fmt.Sprintf("cast('%v' as timestamp)", v.Format(time.RFC3339))
+	case *time.Time:
+		return fmt.Sprintf("cast('%v' as timestamp)", (*v).Format(time.RFC3339))
+	case []int:
+		return fmt.Sprintf("ARRAY[%v]", arrayInt(v))
+	case *[]int:
+		return fmt.Sprintf("ARRAY[%v]", arrayInt(*v))
+	case []int8:
+		return fmt.Sprintf("ARRAY[%v]", arrayInt8(v))
+	case *[]int8:
+		return fmt.Sprintf("ARRAY[%v]", arrayInt8(*v))
+	case []int16:
+		return fmt.Sprintf("ARRAY[%v]", arrayInt16(v))
+	case *[]int16:
+		return fmt.Sprintf("ARRAY[%v]", arrayInt16(*v))
+	case []int32:
+		return fmt.Sprintf("ARRAY[%v]", arrayInt32(v))
+	case *[]int32:
+		return fmt.Sprintf("ARRAY[%v]", arrayInt32(*v))
+	case []int64:
+		return fmt.Sprintf("ARRAY[%v]", arrayInt64(v))
+	case *[]int64:
+		return fmt.Sprintf("ARRAY[%v]", arrayInt64(*v))
+	case []float32:
+		return fmt.Sprintf("ARRAY[%v]", arrayFloat32(v))
+	case *[]float32:
+		return fmt.Sprintf("ARRAY[%v]", arrayFloat32(*v))
+	case []float64:
+		return fmt.Sprintf("ARRAY[%v]", arrayFloat64(v))
+	case *[]float64:
+		return fmt.Sprintf("ARRAY[%v]", arrayFloat64(*v))
+	default:
+		return fmt.Sprintf("%v", v)
+	}
+}
+
+func arrayInt(idsConverted []int) string {
+	buf := bytes.NewBuffer([]byte{})
+	for idx, id := range idsConverted {
+		if idx > 0 {
+			buf.WriteString(",")
+		}
+		buf.WriteString(strconv.FormatInt(int64(id), 10))
+	}
+	return buf.String()
+}
+
+func arrayInt8(idsConverted []int8) string {
+	buf := bytes.NewBuffer([]byte{})
+	for idx, id := range idsConverted {
+		if idx > 0 {
+			buf.WriteString(",")
+		}
+		buf.WriteString(strconv.FormatInt(int64(id), 10))
+	}
+	return buf.String()
+}
+
+func arrayInt16(idsConverted []int16) string {
+	buf := bytes.NewBuffer([]byte{})
+	for idx, id := range idsConverted {
+		if idx > 0 {
+			buf.WriteString(",")
+		}
+		buf.WriteString(strconv.FormatInt(int64(id), 10))
+	}
+	return buf.String()
+}
+
+func arrayInt32(idsConverted []int32) string {
+	buf := bytes.NewBuffer([]byte{})
+	for idx, id := range idsConverted {
+		if idx > 0 {
+			buf.WriteString(",")
+		}
+		buf.WriteString(strconv.FormatInt(int64(id), 10))
+	}
+	return buf.String()
+}
+
+func arrayInt64(idsConverted []int64) string {
+	buf := bytes.NewBuffer([]byte{})
+	for idx, id := range idsConverted {
+		if idx > 0 {
+			buf.WriteString(",")
+		}
+		buf.WriteString(strconv.FormatInt(id, 10))
+	}
+	return buf.String()
+}
+
+func arrayFloat32(idsConverted []float32) string {
+	buf := bytes.NewBuffer([]byte{})
+	for idx, id := range idsConverted {
+		if idx > 0 {
+			buf.WriteString(",")
+		}
+		buf.WriteString(strconv.FormatFloat(float64(id), 'f', -1, 64))
+	}
+	return buf.String()
+}
+
+func arrayFloat64(idsConverted []float64) string {
+	buf := bytes.NewBuffer([]byte{})
+	for idx, id := range idsConverted {
+		if idx > 0 {
+			buf.WriteString(",")
+		}
+		buf.WriteString(strconv.FormatFloat(id, 'f', -1, 64))
+	}
+	return buf.String()
+}
+
+func arrayString(idsConverted []string) string {
+	buf := bytes.NewBuffer([]byte{})
+	for idx, id := range idsConverted {
+		if idx > 0 {
+			buf.WriteString(",")
+		}
+		buf.WriteString("'")
+		buf.WriteString(removeSqlInjections(id))
+		buf.WriteString("'")
+	}
+	return buf.String()
+}
+
+func removeSqlInjections(value string) string {
+	return strings.ReplaceAll(value, "'", "''")
 }

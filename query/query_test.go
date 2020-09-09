@@ -49,7 +49,7 @@ func (ctx TestTypes) GetSources() ([]string, []string, []string) {
 }
 
 func TestApi_Select(t *testing.T) {
-	q := New(connection.New(cfg.TestConnectionString, "postgres"))
+	q := New(connection.New(cfg.TestConnection, "postgres"))
 	var res []TestTypes
 	tmp, err := q.Select(TestTypes{}, "", -1, -1)
 	err = mapstructure.Decode(tmp, &res)
@@ -60,8 +60,8 @@ func TestApi_Select(t *testing.T) {
 }
 
 func TestSelectVersion(t *testing.T) {
-	q := New(connection.New(cfg.TestConnectionString, "postgres"))
-	q2 := New(connection.New(cfg.TestConnectionString, "postgres"))
+	q := New(connection.New(cfg.TestConnection, "postgres"))
+	q2 := New(connection.New(cfg.TestConnection, "postgres"))
 	var res []Db
 	tmp, err := q.Select(Db{}, "", -1, -1)
 	tmp, err = q2.Select(Db{}, "", -1, -1)
@@ -78,4 +78,17 @@ func TestSelectVersion(t *testing.T) {
 		t.Errorf("Version has no value but expect one")
 		return
 	}
+}
+
+func TestParameter(t *testing.T) {
+	q := New(connection.New(cfg.TestConnection, "postgres"))
+	_, _ = q.Select(Db{}, "where test = :test and item = :item and time = :time and float = :float and arrint = :arrint and arrfloat = :arrfloat and injection = :injection", -1, -1, map[string]interface{}{
+		"test":      5,
+		"float":     2.5,
+		"item":      "xxxxxx",
+		"time":      time.Date(2020, 1, 1, 20, 15, 36, 0, time.UTC),
+		"arrint":    []int{1, 2, 3},
+		"arrfloat":  []float64{1.5, 2.5, 3.5},
+		"injection": "' and 1 = 1",
+	})
 }

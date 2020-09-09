@@ -295,6 +295,10 @@ func toSQLString(value interface{}) string {
 		return fmt.Sprintf("ARRAY[%v]", arrayFloat64(v))
 	case *[]float64:
 		return fmt.Sprintf("ARRAY[%v]", arrayFloat64(*v))
+	case []string:
+		return fmt.Sprintf("ARRAY[%v]", arrayString(v))
+	case *[]string:
+		return fmt.Sprintf("ARRAY[%v]", arrayString(*v))
 	default:
 		return fmt.Sprintf("%v", v)
 	}

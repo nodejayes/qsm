@@ -267,38 +267,41 @@ func toSQLString(value interface{}) string {
 		return fmt.Sprintf("cast('%v' as timestamp)", v.Format(time.RFC3339))
 	case *time.Time:
 		return fmt.Sprintf("cast('%v' as timestamp)", (*v).Format(time.RFC3339))
-	case []int:
-		return fmt.Sprintf("ARRAY[%v]", arrayInt(v))
+	case []int, []int8, []int16, []int32, []int64, []uint, []uint8, []uint16, []uint32, []uint64, []float32, []float64,
+		[]complex64, []complex128, []string, []time.Time:
+		return fmt.Sprintf("ARRAY[%v]", buildArrayContent(v))
 	case *[]int:
-		return fmt.Sprintf("ARRAY[%v]", arrayInt(*v))
-	case []int8:
-		return fmt.Sprintf("ARRAY[%v]", arrayInt8(v))
+		return fmt.Sprintf("ARRAY[%v]", buildArrayContent(*v))
 	case *[]int8:
-		return fmt.Sprintf("ARRAY[%v]", arrayInt8(*v))
-	case []int16:
-		return fmt.Sprintf("ARRAY[%v]", arrayInt16(v))
+		return fmt.Sprintf("ARRAY[%v]", buildArrayContent(*v))
 	case *[]int16:
-		return fmt.Sprintf("ARRAY[%v]", arrayInt16(*v))
-	case []int32:
-		return fmt.Sprintf("ARRAY[%v]", arrayInt32(v))
+		return fmt.Sprintf("ARRAY[%v]", buildArrayContent(*v))
 	case *[]int32:
-		return fmt.Sprintf("ARRAY[%v]", arrayInt32(*v))
-	case []int64:
-		return fmt.Sprintf("ARRAY[%v]", arrayInt64(v))
+		return fmt.Sprintf("ARRAY[%v]", buildArrayContent(*v))
 	case *[]int64:
-		return fmt.Sprintf("ARRAY[%v]", arrayInt64(*v))
-	case []float32:
-		return fmt.Sprintf("ARRAY[%v]", arrayFloat32(v))
+		return fmt.Sprintf("ARRAY[%v]", buildArrayContent(*v))
+	case *[]uint:
+		return fmt.Sprintf("ARRAY[%v]", buildArrayContent(*v))
+	case *[]uint8:
+		return fmt.Sprintf("ARRAY[%v]", buildArrayContent(*v))
+	case *[]uint16:
+		return fmt.Sprintf("ARRAY[%v]", buildArrayContent(*v))
+	case *[]uint32:
+		return fmt.Sprintf("ARRAY[%v]", buildArrayContent(*v))
+	case *[]uint64:
+		return fmt.Sprintf("ARRAY[%v]", buildArrayContent(*v))
 	case *[]float32:
-		return fmt.Sprintf("ARRAY[%v]", arrayFloat32(*v))
-	case []float64:
-		return fmt.Sprintf("ARRAY[%v]", arrayFloat64(v))
+		return fmt.Sprintf("ARRAY[%v]", buildArrayContent(*v))
 	case *[]float64:
-		return fmt.Sprintf("ARRAY[%v]", arrayFloat64(*v))
-	case []string:
-		return fmt.Sprintf("ARRAY[%v]", arrayString(v))
+		return fmt.Sprintf("ARRAY[%v]", buildArrayContent(*v))
+	case *[]complex64:
+		return fmt.Sprintf("ARRAY[%v]", buildArrayContent(*v))
+	case *[]complex128:
+		return fmt.Sprintf("ARRAY[%v]", buildArrayContent(*v))
 	case *[]string:
-		return fmt.Sprintf("ARRAY[%v]", arrayString(*v))
+		return fmt.Sprintf("ARRAY[%v]", buildArrayContent(*v))
+	case *[]time.Time:
+		return fmt.Sprintf("ARRAY[%v]", buildArrayContent(*v))
 	default:
 		return fmt.Sprintf("%v", v)
 	}
@@ -359,6 +362,61 @@ func arrayInt64(idsConverted []int64) string {
 	return buf.String()
 }
 
+func arrayUint(idsConverted []uint) string {
+	buf := bytes.NewBuffer([]byte{})
+	for idx, id := range idsConverted {
+		if idx > 0 {
+			buf.WriteString(",")
+		}
+		buf.WriteString(strconv.FormatUint(uint64(id), 10))
+	}
+	return buf.String()
+}
+
+func arrayUint8(idsConverted []uint8) string {
+	buf := bytes.NewBuffer([]byte{})
+	for idx, id := range idsConverted {
+		if idx > 0 {
+			buf.WriteString(",")
+		}
+		buf.WriteString(strconv.FormatUint(uint64(id), 10))
+	}
+	return buf.String()
+}
+
+func arrayUint16(idsConverted []uint16) string {
+	buf := bytes.NewBuffer([]byte{})
+	for idx, id := range idsConverted {
+		if idx > 0 {
+			buf.WriteString(",")
+		}
+		buf.WriteString(strconv.FormatUint(uint64(id), 10))
+	}
+	return buf.String()
+}
+
+func arrayUint32(idsConverted []uint32) string {
+	buf := bytes.NewBuffer([]byte{})
+	for idx, id := range idsConverted {
+		if idx > 0 {
+			buf.WriteString(",")
+		}
+		buf.WriteString(strconv.FormatUint(uint64(id), 10))
+	}
+	return buf.String()
+}
+
+func arrayUint64(idsConverted []uint64) string {
+	buf := bytes.NewBuffer([]byte{})
+	for idx, id := range idsConverted {
+		if idx > 0 {
+			buf.WriteString(",")
+		}
+		buf.WriteString(strconv.FormatUint(id, 10))
+	}
+	return buf.String()
+}
+
 func arrayFloat32(idsConverted []float32) string {
 	buf := bytes.NewBuffer([]byte{})
 	for idx, id := range idsConverted {
@@ -381,6 +439,28 @@ func arrayFloat64(idsConverted []float64) string {
 	return buf.String()
 }
 
+func arrayComplex64(idsConverted []complex64) string {
+	buf := bytes.NewBuffer([]byte{})
+	for idx, id := range idsConverted {
+		if idx > 0 {
+			buf.WriteString(",")
+		}
+		buf.WriteString(strconv.FormatComplex(complex128(id), 'f', -1, 64))
+	}
+	return buf.String()
+}
+
+func arrayComplex128(idsConverted []complex128) string {
+	buf := bytes.NewBuffer([]byte{})
+	for idx, id := range idsConverted {
+		if idx > 0 {
+			buf.WriteString(",")
+		}
+		buf.WriteString(strconv.FormatComplex(id, 'f', -1, 128))
+	}
+	return buf.String()
+}
+
 func arrayString(idsConverted []string) string {
 	buf := bytes.NewBuffer([]byte{})
 	for idx, id := range idsConverted {
@@ -390,6 +470,83 @@ func arrayString(idsConverted []string) string {
 		buf.WriteString("'")
 		buf.WriteString(removeSqlInjections(id))
 		buf.WriteString("'")
+	}
+	return buf.String()
+}
+
+func buildArrayContent(values interface{}) string {
+	t := reflect.TypeOf(values)
+	if t.Kind() == reflect.Ptr {
+		t = t.Elem()
+	}
+	if t.Kind() != reflect.Array {
+		return "ARRAY[]"
+	}
+
+	buf := bytes.NewBuffer([]byte{})
+	v := values.([]interface{})
+
+	counter := 0
+	for _, id := range v {
+		if counter > 0 {
+			buf.WriteString(",")
+		}
+		switch converted := id.(type) {
+		case bool:
+			buf.WriteString(strconv.FormatBool(converted))
+			break
+		case int:
+			buf.WriteString(strconv.FormatInt(int64(converted), 10))
+			break
+		case int8:
+			buf.WriteString(strconv.FormatInt(int64(converted), 10))
+			break
+		case int16:
+			buf.WriteString(strconv.FormatInt(int64(converted), 10))
+			break
+		case int32:
+			buf.WriteString(strconv.FormatInt(int64(converted), 10))
+			break
+		case int64:
+			buf.WriteString(strconv.FormatInt(converted, 10))
+			break
+		case uint:
+			buf.WriteString(strconv.FormatUint(uint64(converted), 10))
+			break
+		case uint8:
+			buf.WriteString(strconv.FormatUint(uint64(converted), 10))
+			break
+		case uint16:
+			buf.WriteString(strconv.FormatUint(uint64(converted), 10))
+			break
+		case uint32:
+			buf.WriteString(strconv.FormatUint(uint64(converted), 10))
+			break
+		case uint64:
+			buf.WriteString(strconv.FormatUint(converted, 10))
+			break
+		case float32:
+			buf.WriteString(strconv.FormatFloat(float64(converted), 'f', -1, 32))
+			break
+		case float64:
+			buf.WriteString(strconv.FormatFloat(converted, 'f', -1, 64))
+			break
+		case complex64:
+			buf.WriteString(strconv.FormatComplex(complex128(converted), 'f', -1, 64))
+			break
+		case complex128:
+			buf.WriteString(strconv.FormatComplex(converted, 'f', -1, 128))
+			break
+		case string:
+			buf.WriteString(fmt.Sprintf("'%v'", removeSqlInjections(converted)))
+			break
+		case time.Time:
+			buf.WriteString(fmt.Sprintf("'%v", converted.Format(time.RFC3339)))
+			break
+		default:
+			continue
+		}
+		counter++
 	}
 	return buf.String()
 }

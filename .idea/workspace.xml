@@ -165,7 +165,8 @@
     <MESSAGE value="remove quote generation" />
     <MESSAGE value="connection string as environment variable" />
     <MESSAGE value="add arguments as parameter" />
-    <option name="LAST_COMMIT_MESSAGE" value="add arguments as parameter" />
+    <MESSAGE value="add string slice support" />
+    <option name="LAST_COMMIT_MESSAGE" value="add string slice support" />
   </component>
   <component name="VgoProject">
     <integration-enabled>true</integration-enabled>

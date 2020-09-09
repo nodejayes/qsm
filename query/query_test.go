@@ -82,13 +82,15 @@ func TestSelectVersion(t *testing.T) {
 
 func TestParameter(t *testing.T) {
 	q := New(connection.New(cfg.TestConnection, "postgres"))
-	_, _ = q.Select(Db{}, "where test = :test and item = :item and time = :time and float = :float and arrint = :arrint and arrfloat = :arrfloat and injection = :injection", -1, -1, map[string]interface{}{
+	_, _ = q.Select(Db{}, "where test = :test and item = :item and arrtime = :arrtime and time = :time and float = :float and arrstr = :arrstring and arrint = :arrint and arrfloat = :arrfloat and injection = :injection", -1, -1, map[string]interface{}{
 		"test":      5,
 		"float":     2.5,
 		"item":      "xxxxxx",
 		"time":      time.Date(2020, 1, 1, 20, 15, 36, 0, time.UTC),
 		"arrint":    []int{1, 2, 3},
 		"arrfloat":  []float64{1.5, 2.5, 3.5},
+		"arrstring": []string{"1", "a", "b"},
+		"arrtime":   []time.Time{time.Date(2020, 1, 1, 0, 0, 0, 0, time.UTC)},
 		"injection": "' and 1 = 1",
 	})
 }

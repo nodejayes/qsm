@@ -479,74 +479,148 @@ func buildArrayContent(values interface{}) string {
 	if t.Kind() == reflect.Ptr {
 		t = t.Elem()
 	}
-	if t.Kind() != reflect.Array {
+	if t.Kind() != reflect.Slice {
 		return "ARRAY[]"
 	}
 
 	buf := bytes.NewBuffer([]byte{})
-	v := values.([]interface{})
-
-	counter := 0
-	for _, id := range v {
-		if counter > 0 {
-			buf.WriteString(",")
+	switch converted := values.(type) {
+	case []bool:
+		for idx, id := range converted {
+			if idx > 0 {
+				buf.WriteString(",")
+			}
+			buf.WriteString(strconv.FormatBool(id))
 		}
-		switch converted := id.(type) {
-		case bool:
-			buf.WriteString(strconv.FormatBool(converted))
-			break
-		case int:
-			buf.WriteString(strconv.FormatInt(int64(converted), 10))
-			break
-		case int8:
-			buf.WriteString(strconv.FormatInt(int64(converted), 10))
-			break
-		case int16:
-			buf.WriteString(strconv.FormatInt(int64(converted), 10))
-			break
-		case int32:
-			buf.WriteString(strconv.FormatInt(int64(converted), 10))
-			break
-		case int64:
-			buf.WriteString(strconv.FormatInt(converted, 10))
-			break
-		case uint:
-			buf.WriteString(strconv.FormatUint(uint64(converted), 10))
-			break
-		case uint8:
-			buf.WriteString(strconv.FormatUint(uint64(converted), 10))
-			break
-		case uint16:
-			buf.WriteString(strconv.FormatUint(uint64(converted), 10))
-			break
-		case uint32:
-			buf.WriteString(strconv.FormatUint(uint64(converted), 10))
-			break
-		case uint64:
-			buf.WriteString(strconv.FormatUint(converted, 10))
-			break
-		case float32:
-			buf.WriteString(strconv.FormatFloat(float64(converted), 'f', -1, 32))
-			break
-		case float64:
-			buf.WriteString(strconv.FormatFloat(converted, 'f', -1, 64))
-			break
-		case complex64:
-			buf.WriteString(strconv.FormatComplex(complex128(converted), 'f', -1, 64))
-			break
-		case complex128:
-			buf.WriteString(strconv.FormatComplex(converted, 'f', -1, 128))
-			break
-		case string:
-			buf.WriteString(fmt.Sprintf("'%v'", removeSqlInjections(converted)))
-			break
-		case time.Time:
-			buf.WriteString(fmt.Sprintf("'%v", converted.Format(time.RFC3339)))
-			break
-		default:
-			continue
+		break
+	case []int:
+		for idx, id := range converted {
+			if idx > 0 {
+				buf.WriteString(",")
+			}
+			buf.WriteString(strconv.FormatInt(int64(id), 10))
 		}
-		counter++
+		break
+	case []int8:
+		for idx, id := range converted {
+			if idx > 0 {
+				buf.WriteString(",")
+			}
+			buf.WriteString(strconv.FormatInt(int64(id), 10))
+		}
+		break
+	case []int16:
+		for idx, id := range converted {
+			if idx > 0 {
+				buf.WriteString(",")
+			}
+			buf.WriteString(strconv.FormatInt(int64(id), 10))
+		}
+		break
+	case []int32:
+		for idx, id := range converted {
+			if idx > 0 {
+				buf.WriteString(",")
+			}
+			buf.WriteString(strconv.FormatInt(int64(id), 10))
+		}
+		break
+	case []int64:
+		for idx, id := range converted {
+			if idx > 0 {
+				buf.WriteString(",")
+			}
+			buf.WriteString(strconv.FormatInt(id, 10))
+		}
+		break
+	case []uint:
+		for idx, id := range converted {
+			if idx > 0 {
+				buf.WriteString(",")
+			}
+			buf.WriteString(strconv.FormatUint(uint64(id), 10))
+		}
+		break
+	case []uint8:
+		for idx, id := range converted {
+			if idx > 0 {
+				buf.WriteString(",")
+			}
+			buf.WriteString(strconv.FormatUint(uint64(id), 10))
+		}
+		break
+	case []uint16:
+		for idx, id := range converted {
+			if idx > 0 {
+				buf.WriteString(",")
+			}
+			buf.WriteString(strconv.FormatUint(uint64(id), 10))
+		}
+		break
+	case []uint32:
+		for idx, id := range converted {
+			if idx > 0 {
+				buf.WriteString(",")
+			}
+			buf.WriteString(strconv.FormatUint(uint64(id), 10))
+		}
+		break
+	case []uint64:
+		for idx, id := range converted {
+			if idx > 0 {
+				buf.WriteString(",")
+			}
+			buf.WriteString(strconv.FormatUint(id, 10))
+		}
+		break
+	case []float32:
+		for idx, id := range converted {
+			if idx > 0 {
+				buf.WriteString(",")
+			}
+			buf.WriteString(strconv.FormatFloat(float64(id), 'f', -1, 32))
+		}
+		break
+	case []float64:
+		for idx, id := range converted {
+			if idx > 0 {
+				buf.WriteString(",")
+			}
+			buf.WriteString(strconv.FormatFloat(id, 'f', -1, 64))
+		}
+		break
+	case []complex64:
+		for idx, id := range converted {
+			if idx > 0 {
+				buf.WriteString(",")
+			}
+			buf.WriteString(strconv.FormatComplex(complex128(id), 'f', -1, 64))
+		}
+		break
+	case []complex128:
+		for idx, id := range converted {
+			if idx > 0 {
+				buf.WriteString(",")
+			}
+			buf.WriteString(strconv.FormatComplex(id, 'f', -1, 128))
+		}
+		break
+	case []string:
+		for idx, id := range converted {
+			if idx > 0 {
+				buf.WriteString(",")
+			}
+			buf.WriteString(fmt.Sprintf("'%v'", removeSqlInjections(id)))
+		}
+		break
+	case []time.Time:
+		for idx, id := range converted {
+			if idx > 0 {
+				buf.WriteString(",")
+			}
+			buf.WriteString(fmt.Sprintf("cast('%v' as timestamp)", id.Format(time.RFC3339)))
+		}
+		break
 	}
 	return buf.String()
 }

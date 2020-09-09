@@ -10,8 +10,12 @@ var connection *sql.DB
 
 // New create a new instance of Connection and returns the reference to it
 func New(connectionString string, typ string) *Connection {
+	cs := os.Getenv(connectionString)
+	if len(cs) < 1 {
+		cs = connectionString
+	}
 	return &Connection{
-		connectionString: os.Getenv(connectionString),
+		connectionString: cs,
 		typ:              typ,
 		err:              nil,
 	}

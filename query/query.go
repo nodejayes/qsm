@@ -77,14 +77,7 @@ func (ctx *Api) generateSelect(target IModel, where string, limit, offset int) s
 		if counter > 0 {
 			buf.WriteString(", ")
 		}
-		if len(infos.ReadDatabaseConverter) > 0 {
-			buf.WriteString(strings.ReplaceAll(infos.ReadDatabaseConverter, "$column", infos.ColumnName))
-			buf.WriteString(" as \"")
-			buf.WriteString(infos.ColumnName)
-			buf.WriteString("\"")
-		} else {
-			buf.WriteString(columnName)
-		}
+		buf.WriteString(columnName)
 		counter++
 	}
 

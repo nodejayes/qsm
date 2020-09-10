@@ -16,7 +16,6 @@ type IModel interface {
 type ModelInfo struct {
 	FieldName              string
 	ColumnName             string
-	ReadDatabaseConverter  string
 	WriteDatabaseConverter string
 	ReadConverter          string
 	WriteConverter         string
@@ -36,10 +35,6 @@ func GetModelInfo(target interface{}, master ModelInfoMapMaster) map[string]*Mod
 		c := field.Tag.Get("column")
 		if len(c) > 0 {
 			info.ColumnName = c
-		}
-		c = field.Tag.Get("dbread")
-		if len(c) > 0 {
-			info.ReadDatabaseConverter = c
 		}
 		c = field.Tag.Get("dbwrite")
 		if len(c) > 0 {

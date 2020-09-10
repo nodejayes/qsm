@@ -171,7 +171,8 @@
     <MESSAGE value="fix type check" />
     <MESSAGE value="optional enviroment variable" />
     <MESSAGE value="add alias tag" />
-    <option name="LAST_COMMIT_MESSAGE" value="add alias tag" />
+    <MESSAGE value="remove src tag, write it in the column tag" />
+    <option name="LAST_COMMIT_MESSAGE" value="remove src tag, write it in the column tag" />
   </component>
   <component name="VgoProject">
     <integration-enabled>true</integration-enabled>

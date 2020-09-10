@@ -35,7 +35,7 @@ type TestTypes struct {
 	Birthday time.Time `src:"tt" column:"birthday"`
 	Dyn      DynStruct `src:"tt" column:"dyn"`
 	Dynb     DynStruct `src:"tt" column:"dynb"`
-	Active   bool      `src:"tt" column:"active"`
+	Active   bool      `src:"tt" column:"active" alias:"ac"`
 }
 
 func (ctx TestTypes) GetSources() ([]string, []string, []string) {

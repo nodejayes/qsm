@@ -21,6 +21,7 @@ type ModelInfo struct {
 	WriteDatabaseConverter string
 	ReadConverter          string
 	WriteConverter         string
+	Alias                  string
 }
 
 func GetModelInfo(target interface{}, master ModelInfoMapMaster) map[string]*ModelInfo {
@@ -56,6 +57,10 @@ func GetModelInfo(target interface{}, master ModelInfoMapMaster) map[string]*Mod
 		c = field.Tag.Get("src")
 		if len(c) > 0 {
 			info.Src = c
+		}
+		c = field.Tag.Get("alias")
+		if len(c) > 0 {
+			info.Alias = c
 		}
 		switch master {
 		case FieldName:

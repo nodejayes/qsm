@@ -9,7 +9,7 @@ type SampleField struct {
 	ID         int       `src:"sf" column:"id"`
 	Geom       string    `src:"sf" column:"geom" dbread:"st_asgeojson($column)" dbwrite:"st_fromgeojson('$value')" read:"geoJsonRead" write:"geoJsonWrite"`
 	SampleDate time.Time `src:"sf" column:"sampledate"`
-	FarmId     int       `src:"sf" column:"farmid"`
+	FarmId     int       `src:"sf" column:"farmid" alias:"FarmId"`
 }
 
 func (ctx *SampleField) GetSources() ([]string, []string, []string) {
@@ -44,7 +44,8 @@ func TestGetModelInfo(t *testing.T) {
 	}
 	if info["FarmId"].ColumnName != "farmid" ||
 		len(info["FarmId"].ReadDatabaseConverter) > 0 ||
-		len(info["FarmId"].WriteDatabaseConverter) > 0 {
+		len(info["FarmId"].WriteDatabaseConverter) > 0 ||
+		info["FarmId"].Alias != "FarmId" {
 		t.Errorf("invalid info for FarmId Property")
 		return
 	}

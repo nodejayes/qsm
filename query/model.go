@@ -1,6 +1,9 @@
 package query
 
-import "reflect"
+import (
+	"reflect"
+	"strings"
+)
 
 type ModelInfoMapMaster = string
 
@@ -60,7 +63,11 @@ func GetModelInfo(target interface{}, master ModelInfoMapMaster) map[string]*Mod
 			if len(info.Alias) > 0 {
 				res[info.Alias] = info
 			} else {
-				res[info.ColumnName] = info
+				tmp := info.ColumnName
+				if strings.Contains(tmp, ".") {
+					tmp = strings.Split(tmp, ".")[1]
+				}
+				res[tmp] = info
 			}
 			break
 		default:

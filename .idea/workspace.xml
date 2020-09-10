@@ -20,9 +20,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="87efe00e-5248-4bf0-ab70-6f70e7108e3d" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/query/model.go" beforeDir="false" afterPath="$PROJECT_DIR$/query/model.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/query/query.go" beforeDir="false" afterPath="$PROJECT_DIR$/query/query.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -172,7 +170,8 @@
     <MESSAGE value="optional enviroment variable" />
     <MESSAGE value="add alias tag" />
     <MESSAGE value="remove src tag, write it in the column tag" />
-    <option name="LAST_COMMIT_MESSAGE" value="remove src tag, write it in the column tag" />
+    <MESSAGE value="remove dbread tag, write it in the column tag" />
+    <option name="LAST_COMMIT_MESSAGE" value="remove dbread tag, write it in the column tag" />
   </component>
   <component name="VgoProject">
     <integration-enabled>true</integration-enabled>
@@ -246,11 +245,11 @@
     </state>
     <state width="1867" height="369" key="GridCell.Tab.1.right/0.0.1920.1040@0.0.1920.1040" timestamp="1599572482869" />
     <state width="1812" height="378" key="GridCell.Tab.1.right/1920.0.1920.1200/0.21.1920.1059/3840.0.1920.1200@1920.0.1920.1200" timestamp="1599719086410" />
-    <state x="2372" y="216" width="800" height="535" key="Vcs.Push.Dialog.v2" timestamp="1599719118722">
+    <state x="2372" y="216" width="800" height="535" key="Vcs.Push.Dialog.v2" timestamp="1599720478654">
       <screen x="1920" y="0" width="1920" height="1200" />
     </state>
     <state x="452" y="187" key="Vcs.Push.Dialog.v2/0.0.1920.1040@0.0.1920.1040" timestamp="1599570581933" />
-    <state x="2372" y="216" width="800" height="535" key="Vcs.Push.Dialog.v2/1920.0.1920.1200/0.21.1920.1059/3840.0.1920.1200@1920.0.1920.1200" timestamp="1599719118722" />
+    <state x="2372" y="216" width="800" height="535" key="Vcs.Push.Dialog.v2/1920.0.1920.1200/0.21.1920.1059/3840.0.1920.1200@1920.0.1920.1200" timestamp="1599720478654" />
     <state width="968" height="610" key="XDebugger.FullValuePopup" timestamp="1599718955375">
       <screen x="1920" y="0" width="1920" height="1200" />
     </state>

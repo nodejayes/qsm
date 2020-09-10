@@ -16,7 +16,6 @@ type IModel interface {
 type ModelInfo struct {
 	FieldName              string
 	ColumnName             string
-	Src                    string
 	ReadDatabaseConverter  string
 	WriteDatabaseConverter string
 	ReadConverter          string
@@ -54,10 +53,6 @@ func GetModelInfo(target interface{}, master ModelInfoMapMaster) map[string]*Mod
 		if len(c) > 0 {
 			info.WriteConverter = c
 		}
-		c = field.Tag.Get("src")
-		if len(c) > 0 {
-			info.Src = c
-		}
 		c = field.Tag.Get("alias")
 		if len(c) > 0 {
 			info.Alias = c
@@ -67,7 +62,11 @@ func GetModelInfo(target interface{}, master ModelInfoMapMaster) map[string]*Mod
 			res[info.FieldName] = info
 			break
 		case ColumnName:
-			res[info.ColumnName] = info
+			if len(info.Alias) > 0 {
+				res[info.Alias] = info
+			} else {
+				res[info.ColumnName] = info
+			}
 			break
 		default:
 			panic("ModelInfoMapMaster not supported only use FieldName or ColumnName!")

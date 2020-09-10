@@ -71,9 +71,6 @@ func (ctx *Api) generateSelect(target IModel, where string, limit, offset int) s
 	counter := 0
 	for _, infos := range info {
 		columnName := infos.ColumnName
-		if len(infos.Src) > 0 {
-			columnName = fmt.Sprintf("%v.%v", infos.Src, columnName)
-		}
 		if len(infos.Alias) > 0 {
 			columnName += fmt.Sprintf(" as \"%v\"", infos.Alias)
 		}

@@ -67,6 +67,9 @@ func GetModelInfo(target interface{}, master ModelInfoMapMaster) map[string]*Mod
 				if strings.Contains(tmp, ".") {
 					tmp = strings.Split(tmp, ".")[1]
 				}
+				if strings.Contains(tmp, "->") {
+					tmp = strings.Split(tmp, "->")[0]
+				}
 				res[tmp] = info
 			}
 			break

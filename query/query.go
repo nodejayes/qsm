@@ -15,8 +15,9 @@ import (
 
 func New(connection *connection.Connection) *Api {
 	me := &Api{
-		connection: connection,
-		converters: make(map[string]ConverterFunction),
+		connection:      connection,
+		converters:      make(map[string]ConverterFunction),
+		columnConverter: make(map[string]string),
 	}
 	me.RegisterConverter("ReadBool", converter.ReadBool)
 	me.RegisterConverter("WriteBool", converter.WriteBool)
@@ -26,12 +27,17 @@ func New(connection *connection.Connection) *Api {
 type ConverterFunction = func(dbValue interface{}, typ *sql.ColumnType, field reflect.StructField, columnName string, result *map[string]interface{}) error
 
 type Api struct {
-	connection *connection.Connection
-	converters map[string]ConverterFunction
+	connection      *connection.Connection
+	converters      map[string]ConverterFunction
+	columnConverter map[string]string
 }
 
 func (ctx *Api) RegisterConverter(name string, converter ConverterFunction) {
 	ctx.converters[name] = converter
+}
+
+func (ctx *Api) RegisterColumnConvert(name string, definition string) {
+	ctx.columnConverter[name] = definition
 }
 
 func (ctx *Api) UnregisterConverter(name string) {
@@ -71,9 +77,35 @@ func (ctx *Api) generateSelect(target IModel, where string, limit, offset int) s
 	counter := 0
 	for _, infos := range info {
 		columnName := infos.ColumnName
-		if len(infos.Alias) > 0 {
-			columnName += fmt.Sprintf(" as \"%v\"", infos.Alias)
+		if strings.Contains(columnName, "->") {
+			tmpColumnInfos := strings.Split(columnName, "->")
+			if len(tmpColumnInfos) < 2 {
+				panic(fmt.Sprintf("column definition is wrong %v", columnName))
+			}
+			for key, def := range ctx.columnConverter {
+				if key == tmpColumnInfos[1] {
+					columnName = strings.ReplaceAll(def, "$column", tmpColumnInfos[0])
+					if len(infos.Alias) < 1 {
+						if strings.Contains(tmpColumnInfos[0], ".") {
+							infos.Alias = strings.Split(tmpColumnInfos[0], ".")[1]
+						} else {
+							infos.Alias = tmpColumnInfos[0]
+						}
+					}
+					break
+				}
+			}
 		}
+		if len(infos.Alias) < 1 {
+			if strings.Contains(columnName, ".") {
+				infos.Alias = strings.Split(columnName, ".")[1]
+			} else {
+				infos.Alias = columnName
+			}
+		}
+
+		columnName += fmt.Sprintf(" as \"%v\"", infos.Alias)
+
 		if counter > 0 {
 			buf.WriteString(", ")
 		}

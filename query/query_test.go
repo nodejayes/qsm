@@ -28,14 +28,14 @@ type DynStruct struct {
 }
 
 type TestTypes struct {
-	ID       int       `src:"tt" column:"id"`
-	Age      int       `src:"tt" column:"age" dbread:"($column) + 1"`
-	Height   float64   `src:"tt" column:"height"`
-	Name     string    `src:"tt" column:"name"`
-	Birthday time.Time `src:"tt" column:"birthday"`
-	Dyn      DynStruct `src:"tt" column:"dyn"`
-	Dynb     DynStruct `src:"tt" column:"dynb"`
-	Active   bool      `src:"tt" column:"active" alias:"ac"`
+	ID       int       `column:"tt.id"`
+	Age      int       `column:"tt.age->addOneConverter"`
+	Height   float64   `column:"tt.height"`
+	Name     string    `column:"tt.name"`
+	Birthday time.Time `column:"tt.birthday"`
+	Dyn      DynStruct `column:"tt.dyn"`
+	Dynb     DynStruct `column:"tt.dynb"`
+	Active   bool      `column:"tt.active" alias:"ac"`
 }
 
 func (ctx TestTypes) GetSources() ([]string, []string, []string) {
@@ -50,6 +50,7 @@ func (ctx TestTypes) GetSources() ([]string, []string, []string) {
 
 func TestApi_Select(t *testing.T) {
 	q := New(connection.New(cfg.TestConnection, "postgres"))
+	q.RegisterColumnConvert("addOneConverter", "$column + 1")
 	var res []TestTypes
 	tmp, err := q.Select(TestTypes{}, "", -1, -1)
 	err = mapstructure.Decode(tmp, &res)

@@ -8,6 +8,7 @@ import (
 	"github.com/nodejayes/qsm/connection"
 	"github.com/nodejayes/qsm/converter"
 	"reflect"
+	"sort"
 	"strconv"
 	"strings"
 	"time"
@@ -75,7 +76,15 @@ func (ctx *Api) generateSelect(target IModel, where string, limit, offset int) s
 	buf := bytes.NewBuffer([]byte{})
 	buf.WriteString("select ")
 	counter := 0
-	for _, infos := range info {
+
+	infoKeys := make([]string, 0, len(info))
+	for k := range info {
+		infoKeys = append(infoKeys, k)
+	}
+	sort.Strings(infoKeys)
+
+	for _, k := range infoKeys {
+		infos := info[k]
 		columnName := infos.ColumnName
 		if strings.Contains(columnName, "->") {
 			tmpColumnInfos := strings.Split(columnName, "->")
